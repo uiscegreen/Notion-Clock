@@ -1,0 +1,123 @@
+<!-- 
+Moved font-family options to JS section so I can just change the font when I want in the embded link and don't have to enter the code everytime to do it.
+Will have to manually change the background-colour.
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notion Digital Clock</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: transparent;
+    font-family: var(--font, 'Fredoka'), sans-serif;
+  }
+
+  .clock {
+    display: flex;
+    align-items: center;
+    background: #F7F0FF;
+    padding: 20px 40px;
+    border-radius: 20px;
+    color: #333333;
+    font-size: 3rem;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(177, 176, 176, 0.2);
+  }
+
+  .group {
+    display: flex;
+    gap: 0px;   /* controls spacing between digits only */
+  }
+
+  .colon {
+    margin: 0 12px; /* controls distance from the colon */
+  }
+
+  .digit {
+    position: relative;
+    width: 60px;
+    text-align: center;
+    perspective: 1000px;
+  }
+
+  .digit span {
+    display: block;
+    transition: transform 0.5s;
+  }
+
+  .digit.flip span {
+    transform: rotateX(180deg);
+  }
+</style>
+</head>
+<body>
+
+<div class="clock">
+  <div class="group">
+    <div class="digit" id="hourTens"><span>0</span></div>
+    <div class="digit" id="hourOnes"><span>0</span></div>
+  </div>
+  <div class="colon">:</div>
+  <div class="group">
+    <div class="digit" id="minuteTens"><span>0</span></div>
+    <div class="digit" id="minuteOnes"><span>0</span></div>
+  </div>
+</div>
+
+<script>
+function loadFont(fontName) {
+  if (!fontName) return;
+  const link = document.createElement("link");
+  link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, '+')}:wght@400;600;700&display=swap`;
+  link.rel = "stylesheet";
+  document.head.appendChild(link);
+  document.documentElement.style.setProperty("--font", `'${fontName}'`);
+}
+
+function getParams() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has("font")) {
+    loadFont(params.get("font"));
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = now.getMinutes();
+
+  const digits = {
+    hourTens: Math.floor(h / 10),
+    hourOnes: h % 10,
+    minuteTens: Math.floor(m / 10),
+    minuteOnes: m % 10
+  };
+
+  for (const id in digits) {
+    const el = document.getElementById(id);
+    const span = el.querySelector('span');
+    if (span.textContent != digits[id]) {
+      el.classList.add('flip');
+      setTimeout(() => {
+        span.textContent = digits[id];
+        el.classList.remove('flip');
+      }, 250);
+    }
+  }
+}
+
+getParams();
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
