@@ -11,12 +11,13 @@ Will have to manually change the background-colour.
 <title>Notion Digital Clock</title>
 <style>
 
-/* Trying to fix notion sizing */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+/* Trying to fix notion sizing and centering issue */
+  html, body {
+     height: 100%;
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+}
   
   body {
     display: flex;
@@ -131,5 +132,6 @@ setInterval(updateClock, 1000);
 </body>
 
 </html>
+
 
 
