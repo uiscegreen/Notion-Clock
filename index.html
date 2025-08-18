@@ -31,6 +31,14 @@ Will have to manually change the background-colour.
     padding-top: 10px;
   }
 
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+  
   .clock {
     display: flex;
     align-items: center;
@@ -71,17 +79,19 @@ Will have to manually change the background-colour.
 </head>
 <body>
 
-<div class="clock">
-  <div class="group">
-    <div class="digit" id="hourTens"><span>0</span></div>
-    <div class="digit" id="hourOnes"><span>0</span></div>
+  <div class="container">
+    <div class="clock">
+      <div class="group">
+        <div class="digit" id="hourTens"><span>0</span></div>
+        <div class="digit" id="hourOnes"><span>0</span></div>
+      </div>
+      <div class="colon">:</div>
+      <div class="group">
+        <div class="digit" id="minuteTens"><span>0</span></div>
+        <div class="digit" id="minuteOnes"><span>0</span></div>
+      </div>
+    </div>
   </div>
-  <div class="colon">:</div>
-  <div class="group">
-    <div class="digit" id="minuteTens"><span>0</span></div>
-    <div class="digit" id="minuteOnes"><span>0</span></div>
-  </div>
-</div>
 
 <script>
 function loadFont(fontName) {
@@ -133,6 +143,7 @@ setInterval(updateClock, 1000);
 </body>
 
 </html>
+
 
 
 
