@@ -180,15 +180,6 @@ function updateClock() {
   }
 }
 
-// Color Picker Event Listeners
-document.getElementById('bgColor').addEventListener('input', (e) => {
-  document.documentElement.style.setProperty('--bg-color', e.target.value);
-});
-
-document.getElementById('textColor').addEventListener('input', (e) => {
-  document.documentElement.style.setProperty('--text-color', e.target.value);
-});
-
 getParams();
 updateClock();
 setInterval(updateClock, 1000);
@@ -196,6 +187,7 @@ setInterval(updateClock, 1000);
 
 </body>
 </html>
+
 
 
 
