@@ -70,7 +70,7 @@ Will have to manually change the background-colour.
     width: 1.2em;
     text-align: center;
     perspective: 1000px;
-    font-family: var(--font);
+    font-family: var(--font-family, var(--font));
     font-weight: var(--font-weight);
   }
 
@@ -129,8 +129,9 @@ function loadFont(fontName) {
       break;
     case "Monospace":
       document.documentElement.style.setProperty("--font-weight", 400);
+      document.documentElement.style.setProperty("--font-family", "monospace"); // explicit
       break;
-  }
+}
 
   if (fontName !== "Monospace") {
     document.head.appendChild(link);
@@ -237,6 +238,7 @@ setInterval(updateClock, 1000);
 </body>
 
 </html>
+
 
 
 
