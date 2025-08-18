@@ -43,17 +43,21 @@ Will have to manually change the background-colour.
   .clock {
     display: flex;
     align-items: center;
-    background: #F7F0FF;
+    background: var(--bg-color, #F7F0FF);
     padding: 0.5em 1em;
-    /* border: 2px solid #BFA6DC; */
-    /* border-radius: 16px;   curved edges.
-       border-radius: 0px;    hard edges 
-    */
+   
     border-radius: var(--radius, 16px); /* default curved */
     color: #333333;
     font-size: clamp(2rem, 6vw, 4rem); /* scales with screen size, gives three options */
     font-weight: 600;
+    color: var(--text-color, #333333); /* text color */
+    /*font-weight: 600;*/
+
     /* box-shadow: 0 8px 20px rgba(177, 176, 176, 0.2); */
+    /* border: 2px solid #BFA6DC; */
+    /* border-radius: 16px;   curved edges.
+       border-radius: 0px;    hard edges 
+    */
   }
 
   .group {
@@ -142,11 +146,21 @@ function loadFont(fontName) {
 
 function getParams() {
   const params = new URLSearchParams(window.location.search);
+
   if (params.has("font")) {
     loadFont(params.get("font"));
   }
+
   if (params.has("radius")) {
     document.documentElement.style.setProperty("--radius", params.get("radius"));
+  }
+
+  if (params.has("bg")) {
+    document.documentElement.style.setProperty("--bg-color", params.get("bg"));
+  }
+
+  if (params.has("text")) {
+    document.documentElement.style.setProperty("--text-color", params.get("text"));
   }
 }
 
@@ -183,61 +197,10 @@ setInterval(updateClock, 1000);
 
   <!-- TEST END -->
   
-<!-- 
-<script>
-function loadFont(fontName) {
-  if (!fontName) return;
-  const link = document.createElement("link");
-  link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, '+')}:wght@400;600;700&display=swap`;
-  link.rel = "stylesheet";
-  document.head.appendChild(link);
-  document.documentElement.style.setProperty("--font", `'${fontName}'`);
-}
-
-function getParams() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.has("font")) {
-    loadFont(params.get("font"));
-  }
-  if (params.has("radius")) {
-    document.documentElement.style.setProperty("--radius", params.get("radius"));
-  }
-}
-
-function updateClock() {
-  const now = new Date();
-  const h = now.getHours();
-  const m = now.getMinutes();
-
-  const digits = {
-    hourTens: Math.floor(h / 10),
-    hourOnes: h % 10,
-    minuteTens: Math.floor(m / 10),
-    minuteOnes: m % 10
-  };
-
-  for (const id in digits) {
-    const el = document.getElementById(id);
-    const span = el.querySelector('span');
-    if (span.textContent != digits[id]) {
-      el.classList.add('flip');
-      setTimeout(() => {
-        span.textContent = digits[id];
-        el.classList.remove('flip');
-      }, 250);
-    }
-  }
-}
-
-getParams();
-updateClock();
-setInterval(updateClock, 1000);
-</script>
-  -->
-
 </body>
 
 </html>
+
 
 
 
