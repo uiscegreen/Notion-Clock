@@ -1,5 +1,6 @@
 <!-- 
 Moved font-family options to JS section so I can just change the font when I want in the embded link and don't have to enter the code everytime to do it.
+Changed border style so I can switch from curved to hard edges in clock syle in the embed link.
 Will have to manually change the background-colour.
 -->
 
@@ -43,27 +44,30 @@ Will have to manually change the background-colour.
     display: flex;
     align-items: center;
     background: #F7F0FF;
-    padding: 10px 18px;
+    padding: 0.5em 1em;
     /* border: 2px solid #BFA6DC; */
-    border-radius: 16px;
+    /* border-radius: 16px;   curved edges.
+       border-radius: 0px;    hard edges 
+    */
+    border-radius: var(--radius, 16px); /* default curved */
     color: #333333;
-    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 5vw, 2.5rem); /* scales with screen size, gives three options */
     font-weight: 600;
     /* box-shadow: 0 8px 20px rgba(177, 176, 176, 0.2); */
   }
 
   .group {
     display: flex;
-    gap: 0px;   /* controls spacing between digits only */
+    gap: 0px;   /* controls spacing between digits */
   }
 
   .colon {
-    margin: 0 12px; /* controls distance from the colon */
+    margin: 0 0.6em; /* controls distance from colon */
   }
 
   .digit {
     position: relative;
-    width: 50px;
+    width: 1em;
     text-align: center;
     perspective: 1000px;
   }
@@ -109,6 +113,9 @@ function getParams() {
   if (params.has("font")) {
     loadFont(params.get("font"));
   }
+  if (params.has("radius")) {
+    document.documentElement.style.setProperty("--radius", params.get("radius"));
+  }
 }
 
 function updateClock() {
@@ -144,6 +151,7 @@ setInterval(updateClock, 1000);
 </body>
 
 </html>
+
 
 
 
