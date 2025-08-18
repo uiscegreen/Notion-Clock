@@ -70,6 +70,8 @@ Will have to manually change the background-colour.
     width: 1.2em;
     text-align: center;
     perspective: 1000px;
+    font-family: var(--font);
+    font-weight: var(--font-weight);
   }
 
   .digit span {
@@ -115,14 +117,18 @@ function loadFont(fontName) {
   switch(fontName) {
     case "Fredoka":
       link.href = "https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap";
+      document.documentElement.style.setProperty("--font-weight", 600);
       break;
     case "Baloo 2":
       link.href = "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap";
+      document.documentElement.style.setProperty("--font-weight", 700);
       break;
     case "Mulish":
       link.href = "https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap";
+      document.documentElement.style.setProperty("--font-weight", 400);
       break;
     case "Monospace":
+      document.documentElement.style.setProperty("--font-weight", 400);
       break;
   }
 
@@ -231,6 +237,7 @@ setInterval(updateClock, 1000);
 </body>
 
 </html>
+
 
 
 
