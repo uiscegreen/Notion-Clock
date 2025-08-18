@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notion Clock Widget Picker</title>
+<style>
+  body {
+    font-family: sans-serif;
+    background: #fafafa;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  select, .color-input {
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .color-input {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+  }
+
+  .color-input:focus {
+    outline: none;
+    transform: scale(1.1);
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background: #f193e5;
+    color: #333;
+    font-weight: bold;      
+    font-size: 1rem;      
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #dd74cf;
+    color: #fff9fd;
+  }
+
+  iframe {
+    width: 320px;
+    height: 120px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: white;
+  }
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+</style>
+</head>
+<body>
+
+<h1>Notion Clock Widget Picker</h1>
+
+<div class="controls">
+  <!-- Font picker -->
+  <label for="font">Font:</label>
+  <select id="font">
+    <option value="Fredoka">Fredoka</option>
+    <option value="Baloo 2">Baloo 2</option>
+    <option value="Mulish">Mulish</option>
+    <option value="Monospace">Monospace</option>
+  </select>
+
+  <!-- Border radius picker -->
+  <label for="radius">Radius:</label>
+  <select id="radius">
+    <option value="16px">Rounded</option>
+    <option value="0px">Squared</option>
+  </select>
+
+  <!-- Background color picker -->
+  <label for="bgColor">Background:</label>
+  <input type="color" id="bgColor" class="color-input" value="#F7F0FF">
+
+  <!-- Text color picker -->
+  <label for="textColor">Text:</label>
+  <input type="color" id="textColor" class="color-input" value="#333333">
+</div>
+
+<iframe id="preview"></iframe>
+<button id="copyBtn">Copy Link</button>
+<div class="output" id="output" style="display:none;"></div>
+
+<script>
+const baseUrl = "https://uiscegreen.github.io/notion-clock/"; // your clock URL
+const fontSelect = document.getElementById("font");
+const radiusSelect = document.getElementById("radius");
+const bgColorInput = document.getElementById("bgColor");
+const textColorInput = document.getElementById("textColor");
+const preview = document.getElementById("preview");
+const output = document.getElementById("output");
+const copyBtn = document.getElementById("copyBtn");
+
+function updatePreview() {
+  const font = encodeURIComponent(fontSelect.value);
+  const radius = encodeURIComponent(radiusSelect.value);
+  const bg = encodeURIComponent(bgColorInput.value);
+  const text = encodeURIComponent(textColorInput.value);
+
+  const url = `${baseUrl}?font=${font}&radius=${radius}&bg=${bg}&text=${text}`;
+  preview.src = url;
+  output.textContent = url;
+}
+
+// Copy URL to clipboard
+copyBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText(output.textContent);
+  copyBtn.textContent = "Copied!";
+  setTimeout(() => (copyBtn.textContent = "Copy Link"), 1500);
+});
+
+// Update preview when controls change
+[fontSelect, radiusSelect, bgColorInput, textColorInput].forEach(el => {
+  el.addEventListener("input", updatePreview);
+});
+
+// Initialize
+updatePreview();
+</script>
+
+</body>
+</html>
