@@ -1,191 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Digital Clock with Color Pickers</title>
-<style>
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notion Digital Clock</title>
+    <style>
+      /* Trying to fix notion sizing and centering issue */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: transparent;
-  font-family: var(--font, 'Fredoka'), sans-serif;
-  overflow: hidden;
-  padding: 10px;
-}
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        font-family: var(--font, 'Fredoka'), sans-serif;
+        overflow: hidden;
+        padding-top: 10px;
+      }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 20px; /* space for color pickers */
-}
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+      }
 
-.clock {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-color, #F7F0FF);
-  padding: 1em;
-  border-radius: var(--radius, 16px);
-  color: var(--text-color, #333333);
-  font-size: clamp(2rem, 10vw, 6rem);
-  font-weight: 600;
-  width: 100%;
-  box-sizing: border-box;
-}
+      .clock {
+        display: flex;
+        align-items: center;
+        background: var(--bg-color, #f7f0ff);
+        padding: 0.5em 1em;
+        border-radius: var(--radius, 16px); /* default curved */
+        color: var(--text-color, #333333);
+        font-size: clamp(2rem, 6vw, 4rem); /* scales with screen size */
+        font-weight: 600;
+      }
 
-.group {
-  display: flex;
-  gap: 0;
-}
+      .group {
+        display: flex;
+        gap: 0px; /* controls spacing between digits */
+      }
 
-.colon {
-  margin: 0 0.2em;
-}
+      .colon {
+        margin: 0 0.6em; /* controls distance from colon */
+      }
 
-.digit {
-  position: relative;
-  flex: 1 1 auto;
-  text-align: center;
-  perspective: 1000px;
-}
+      .digit {
+        position: relative;
+        width: 1.2em;
+        text-align: center;
+        perspective: 1000px;
+        font-family: var(--font-family, var(--font));
+        font-weight: var(--font-weight);
+      }
 
-.digit span {
-  display: block;
-  transition: transform 0.5s;
-}
+      .digit span {
+        display: block;
+        transition: transform 0.5s;
+      }
 
-.digit.flip span {
-  transform: rotateX(180deg);
-}
-
-/* Color Picker Styles */
-.controls {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.controls label {
-  font-weight: 600;
-  margin-right: 5px;
-}
-
-.color-input {
-  width: 40px;
-  height: 40px;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-</style>
-</head>
-<body>
-
-<div class="container">
-  <div class="clock">
-    <div class="group">
-      <div class="digit" id="hourTens"><span>0</span></div>
-      <div class="digit" id="hourOnes"><span>0</span></div>
+      .digit.flip span {
+        transform: rotateX(180deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="clock">
+        <div class="group">
+          <div class="digit" id="hourTens"><span>0</span></div>
+          <div class="digit" id="hourOnes"><span>0</span></div>
+        </div>
+        <div class="colon">:</div>
+        <div class="group">
+          <div class="digit" id="minuteTens"><span>0</span></div>
+          <div class="digit" id="minuteOnes"><span>0</span></div>
+        </div>
+      </div>
     </div>
-    <div class="colon">:</div>
-    <div class="group">
-      <div class="digit" id="minuteTens"><span>0</span></div>
-      <div class="digit" id="minuteOnes"><span>0</span></div>
-    </div>
-  </div>
-</div>
 
+    <!-- TEST -->
+    <script>
+      function loadFont(fontName) {
+        if (!fontName) return;
+        const existingLink = document.getElementById("dynamic-font");
+        if (existingLink) existingLink.remove();
+        const link = document.createElement("link");
+        link.id = "dynamic-font";
+        link.rel = "stylesheet";
 
-<script>
-function loadFont(fontName) {
-  if (!fontName) return;
+        switch (fontName) {
+          case "Fredoka":
+            link.href =
+              "https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap";
+            document.documentElement.style.setProperty("--font-weight", 700);
+            break;
+          case "Baloo 2":
+            link.href =
+              "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap";
+            document.documentElement.style.setProperty("--font-weight", 700);
+            break;
+          case "Mulish":
+            link.href =
+              "https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap";
+            document.documentElement.style.setProperty("--font-weight", 400);
+            break;
+          case "Monospace":
+            document.documentElement.style.setProperty("--font-weight", 400);
+            document.documentElement.style.setProperty("--font-family", "monospace");
+            break;
+        }
+        if (fontName !== "Monospace") {
+          document.head.appendChild(link);
+        }
+        document.documentElement.style.setProperty("--font", `${fontName}`);
+      }
 
-  const existingLink = document.getElementById("dynamic-font");
-  if (existingLink) existingLink.remove();
+      function getParams() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has("font")) {
+          loadFont(params.get("font"));
+        }
+        if (params.has("radius")) {
+          document.documentElement.style.setProperty("--radius", params.get("radius"));
+        }
+        if (params.has("bg")) {
+          document.documentElement.style.setProperty("--bg-color", params.get("bg"));
+        }
+        if (params.has("text")) {
+          document.documentElement.style.setProperty("--text-color", params.get("text"));
+        }
+      }
 
-  const link = document.createElement("link");
-  link.id = "dynamic-font";
-  link.rel = "stylesheet";
+      function updateClock() {
+        const now = new Date();
+        const h = now.getHours();
+        const m = now.getMinutes();
+        const digits = {
+          hourTens: Math.floor(h / 10),
+          hourOnes: h % 10,
+          minuteTens: Math.floor(m / 10),
+          minuteOnes: m % 10,
+        };
 
-  switch(fontName) {
-    case "Fredoka":
-      link.href = "https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap";
-      document.documentElement.style.setProperty("--font-weight", 700);
-      break;
-    case "Baloo 2":
-      link.href = "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap";
-      document.documentElement.style.setProperty("--font-weight", 700);
-      break;
-    case "Mulish":
-      link.href = "https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap";
-      document.documentElement.style.setProperty("--font-weight", 400);
-      break;
-    case "Monospace":
-      document.documentElement.style.setProperty("--font-weight", 400);
-      document.documentElement.style.setProperty("--font-family", "monospace");
-      break;
-  }
+        for (const id in digits) {
+          const el = document.getElementById(id);
+          const span = el.querySelector("span");
+          if (span.textContent != digits[id]) {
+            el.classList.add("flip");
+            setTimeout(() => {
+              span.textContent = digits[id];
+              el.classList.remove("flip");
+            }, 250);
+          }
+        }
+      }
 
-  if (fontName !== "Monospace") document.head.appendChild(link);
-  document.documentElement.style.setProperty("--font", `'${fontName}'`);
-}
-
-function getParams() {
-  const params = new URLSearchParams(window.location.search);
-
-  if (params.has("font")) loadFont(params.get("font"));
-  if (params.has("radius")) document.documentElement.style.setProperty("--radius", params.get("radius"));
-  if (params.has("bg")) document.documentElement.style.setProperty("--bg-color", params.get("bg"));
-  if (params.has("text")) document.documentElement.style.setProperty("--text-color", params.get("text"));
-}
-
-function updateClock() {
-  const now = new Date();
-  const h = now.getHours();
-  const m = now.getMinutes();
-
-  const digits = {
-    hourTens: Math.floor(h / 10),
-    hourOnes: h % 10,
-    minuteTens: Math.floor(m / 10),
-    minuteOnes: m % 10
-  };
-
-  for (const id in digits) {
-    const el = document.getElementById(id);
-    const span = el.querySelector('span');
-    if (span.textContent != digits[id]) {
-      el.classList.add('flip');
-      setTimeout(() => {
-        span.textContent = digits[id];
-        el.classList.remove('flip');
-      }, 250);
-    }
-  }
-}
-
-getParams();
-updateClock();
-setInterval(updateClock, 1000);
-</script>
-
-</body>
+      // Run on load
+      getParams();
+      updateClock();
+      setInterval(updateClock, 1000);
+    </script>
+    <!-- TEST END -->
+  </body>
 </html>
 
 
